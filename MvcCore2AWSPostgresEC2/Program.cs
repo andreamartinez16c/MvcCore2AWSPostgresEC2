@@ -5,9 +5,13 @@ using MvcCore2AWSPostgresEC2.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("Postgres");
+/*string connectionString = builder.Configuration.GetConnectionString("Postgres");*/
+string connectionString = builder.Configuration.GetConnectionString("MySql");
 builder.Services.AddTransient<RepositoryDepartamento>();
-builder.Services.AddDbContext<DepartamentosContext>(options => options.UseNpgsql(connectionString));
+/*builder.Services.AddDbContext<DepartamentosContext>(options => options.UseNpgsql(connectionString));*/
+builder.Services.AddDbContext<DepartamentosContext>
+    (options => options.UseMySql(connectionString
+    , ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
